@@ -1,7 +1,9 @@
 const express = require('express'); // require giống import
+require('dotenv').config(); // import file env
 const router = require("./routers/client/index.router") // truy cap vao trang quan ly router cua project ( giu control va click de truy cap den file router do)
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+
 
 app.set('views', './views');
 app.set('view engine', 'pug');
