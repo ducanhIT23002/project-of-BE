@@ -3,19 +3,47 @@ extends ../../layouts/default.pug
 
 block main
   h1 trang admin
-  //- .container.my-3
-  //-   .row
-  //-     .col-12
-  //-       .box-head
-  //-          h2.inner-title dashboard
+  
+  //- table.table.table-hover.table-sm
+  //-   thead 
+  //-     tr
+  //-       th STT
+  //-       th Hình ảnh
+  //-       th Tiêu đề th Giá
+  //-       th Trạng thái
+  //-       th Hành động
+
+  //-   tbody 
+  //-     tr
+  //-       td 1
+  //-       td
+  //-           img(
+  //-             src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+  //-             alt="Sản phẩm 1"
+  //-             width="100px"
+  //-             height="auto"
+  //-           )
+  //-       td Sản phẩm 1
+  //-       td 100$
+  //-       td
+  //-         a(href="#" class="badge badge-success") Hoạt động
+  //-       td
+  //-         button(class="btn btn-warning btn-sm") Sửa
+  //-         button(class="btn btn-danger btn-sm ml-1") Xóa
+  //-     tr    
+  //-       td 2
+  //-       td
+  //-           img(
+  //-             src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+  //-             alt="Sản phẩm 2"
+  //-             width="100px"
+  //-             height="auto"
+  //-           )
+  //-       td Sản phẩm 2
+  //-       td 150$
+  //-       td
+  //-         a(href="#" class="badge badge-danger") Dừng hoạt động
+  //-       td
+  //-         button(class="btn btn-warning btn-sm") Sửa
+  //-         button(class="btn btn-danger btn-sm ml-1") Xóa
     
-  //-   .row
-  //-     .col-4.mb-3
-  //-       .product-item
-  //-         .inner-image
-  //-           img(src="https://i.dummyjson.com/data/products/1/thumbnail.jpg", alt="iPhone 9")
-  //-         .inner-content
-  //-           h3.inner-title iPhone 9
-  //-           .inner-price-new 80$
-  //-           .inner-price-old 100$
-  //-           .inner-discount -20%

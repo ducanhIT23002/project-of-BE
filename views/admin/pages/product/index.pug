@@ -3,3 +3,89 @@ extends ../../layouts/default.pug
 
 block main
   h1 trang sản phẩm Admin
+  
+  .card.mb-3
+    .card-header Bộ lọc và Tìm kiếm
+    .card-body
+
+     .row
+      
+      .col-6
+        each item in but
+          button(
+          class=`btn btn-sm ml-1 btn-outline-success ${item.class}` 
+          button-status = item.status
+          ) #{item.content}
+        //- button( //active
+        //- class="btn btn-sm ml-1 btn-outline-success"
+        //- button-status = "active"
+        //- ) Hoạt động 
+        //- button(
+        //- class="btn btn-sm ml-1 btn-outline-success"
+        //- button-status = "inactive"
+        //- ) Dừng hoạt động
+      .col-6
+        form(id="form-search")
+          .input-group
+            input(
+              type="text"
+              placeholder="Nhập từ khóa"
+              name="keyword"
+              class="form-control"
+              value = keyword
+            )
+            .input-group-append
+              button(
+                class="btn btn-success"
+                type="submit"
+              ) Tìm
+
+
+  table.table.table-hover.table-sm
+    thead 
+      tr
+        th STT
+        th Hình ảnh
+        th Tiêu đề th Giá
+        th Trạng thái
+        th Hành động
+
+    tbody 
+     each item, index in DataOfPro
+      tr
+        td #{index + 1} 
+        td
+            img(
+              src=item.thumbnail
+              alt=item.title
+              width="100px"
+              height="auto"
+            )
+        td #{item.title}
+        td #{item.price}
+        td
+         if(item.status == "active")
+            a(href="#" class="badge badge-success") Hoạt động
+         else 
+            a(href="#" class="badge badge-danger") Dừng Hoạt động
+        td
+          button(class="btn btn-warning btn-sm") Sửa
+          button(class="btn btn-danger btn-sm ml-1") Xóa
+
+      //- tr    
+      //-   td 2
+      //-   td
+      //-       img(
+      //-         src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+      //-         alt="Sản phẩm 2"
+      //-         width="100px"
+      //-         height="auto"
+      //-       )
+      //-   td Sản phẩm 2
+      //-   td 150$
+      //-   td
+      //-     a(href="#" class="badge badge-danger") Dừng hoạt động
+      //-   td
+      //-     button(class="btn btn-warning btn-sm") Sửa
+      //-     button(class="btn btn-danger btn-sm ml-1") Xóa
+    
