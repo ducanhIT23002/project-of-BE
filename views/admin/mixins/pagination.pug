@@ -1,0 +1,31 @@
+mixin pagination(pagination) 
+   nav
+    ul(class="pagination")
+      li(class="page-item")
+       if ( pagination.CurrentPage > 1)
+        button(class="page-link" data-page =  pagination.CurrentPage - 1) Trang trước
+
+
+      //- - for(let i = 1; i<= pagination.totalPage; i++)
+      //-     li(class=`page-item ${pagination.CurrentPage == i? "active" : ""}`)
+      //-      button(class="page-link " data-page = i  ) #{i}
+
+           
+      if ( pagination.CurrentPage == 1) 
+        - for(let i = 1; i<= pagination.CurrentPage + 2 ; i++)
+            li(class=`page-item ${pagination.CurrentPage == i? "active" : ""}`)
+              button(class="page-link " data-page = i  ) #{i}
+      else
+        if ( pagination.CurrentPage == pagination.totalPage) 
+          - for(let i = pagination.totalPage - 2; i<= pagination.totalPage ; i++)
+              li(class=`page-item ${pagination.CurrentPage == i? "active" : ""}`)
+                button(class="page-link " data-page = i  ) #{i}
+        else 
+          - for(let i = pagination.CurrentPage - 1; i<= pagination.CurrentPage + 1; i++)
+              li(class=`page-item ${pagination.CurrentPage == i? "active" : ""}`)
+                button(class="page-link " data-page = i  ) #{i}
+        
+
+      li(class="page-item")
+       if ( pagination.CurrentPage < pagination.totalPage)
+        button(class="page-link" data-page =  pagination.CurrentPage + 1) Kế tiếp

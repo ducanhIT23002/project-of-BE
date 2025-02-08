@@ -1,0 +1,6 @@
+mixin Filter-Status(but)
+    each item in but
+        button(
+            class=`btn btn-sm ml-1 btn-outline-success ${item.class}` 
+            button-status = item.status
+        ) #{item.content}

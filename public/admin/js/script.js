@@ -1,3 +1,6 @@
+// GIAO DIEN FRONT END
+
+
 // bộ lộc và tìm kiếm
 // thay vi go status truc tiep tren link URL thi dung JS va HTML cua FE de thay the 
 const buttonstatus = document.querySelectorAll("[button-status]"); // lấy value của thuộc tính tự tạo 
@@ -35,3 +38,21 @@ if (formSearch) {
         window.location.href = url.href;  
     });  
 }  
+
+
+//Pagination
+const pagi = document.querySelectorAll("[data-page]");
+if (pagi.length > 0 ) {
+    let url = new URL(window.location.href) // lay link cua URL hien tai 
+    pagi.forEach(item => {
+       item.addEventListener("click", () => {
+           let NumOfPage = item.getAttribute("data-page"); 
+           if ( !isNaN(NumOfPage)) { 
+               url.searchParams.set("page", NumOfPage) 
+           } else {
+               url.searchParams.delete("page")
+           }
+           window.location.href =  url.href 
+       })
+   });
+   }
