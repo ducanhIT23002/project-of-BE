@@ -1,4 +1,7 @@
 const express = require('express'); // require giống import
+var methodOverride = require('method-override') // dùng phương thức PATCH để cập nhật dự liệu 
+var bodyParser = require('body-parser') // để dùng req.body
+
 
 require('dotenv').config(); // import file env
 const router = require("./routers/client/index.router") // truy cap vao trang quan ly router cua client ( giu control va click de truy cap den file router do)
@@ -10,6 +13,9 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
+
+app.use(methodOverride('_method')) // dùng phương thức PATCH để cập nhật dự liệu 
+app.use(bodyParser.urlencoded({ extended: false }))//để dùng req.body
 
 app.set('views', './views');
 app.set('view engine', 'pug');

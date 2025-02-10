@@ -3,6 +3,7 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/formsearch.pug
 include ../../mixins/pagination.pug
 include ../../mixins/data.pug
+include ../../mixins/formChange.pug
 
 block main
   h1 trang sản phẩm Admin
@@ -18,19 +19,38 @@ block main
 
       .col-6
         +formSearch(keyword) 
+  .card.mb-3
+      .card-header 
+       .card-body Danh Sách
+        +formChange(`${prefixAdmin}/product/change-multi?_method=PATCH`)
+
+        table(
+          class = "table table-hover table-sm"
+          checkbox-multi
+          )
+          thead 
+            tr
+              th  
+                input(type ="checkbox" name = "checkall")
+              th STT
+              th Hình ảnh
+              th Tiêu đề th Giá
+              th Trạng thái
+              th Hành động
+
+          tbody 
+            +Data(DataOfPro)
+            
+        +pagination(pagination) 
+
+  //-  tạo form đựng status đường dẫn sau khi khi ấn vào button
 
 
-  table.table.table-hover.table-sm
-    thead 
-      tr
-        th STT
-        th Hình ảnh
-        th Tiêu đề th Giá
-        th Trạng thái
-        th Hành động
-
-    tbody 
-      +Data(DataOfPro)
-      
-  +pagination(pagination) 
-
+  //- GET lấy dữ liệu từ URL
+  //- POST phải lấy từ req.body ( phải thêm thư viện mới)
+  form( 
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/product/change-status`
+  )

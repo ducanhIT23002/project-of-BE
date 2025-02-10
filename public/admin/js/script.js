@@ -1,5 +1,5 @@
 // GIAO DIEN FRONT END
-
+// DÙNG DỂ THAY ĐỔI ĐƯỜNG LINK (window.location.href)
 
 // bộ lộc và tìm kiếm
 // thay vi go status truc tiep tren link URL thi dung JS va HTML cua FE de thay the 
@@ -56,3 +56,4 @@ if (pagi.length > 0 ) {
        })
    });
    }
+

@@ -42,3 +42,30 @@ let pagination = paginationHelper(
     }); // render in ra giao diện của pug 
 }
 
+module.exports.changeStatus = async (req, res) => { 
+ console.log(req.params);
+ const id = req.params.id; // thì router có tham số động ( dấu : phía trước , nên :status thì dùng được req.params.status)
+ const status = req.params.status;
+
+ // cập nhật ID và status mới cho database 
+await dataproduct.updateOne({ _id : id }, { status: status });
+
+// sau khi cập nhật quay trở lại trang web như hiện tại
+res.redirect("back");
+}
+module.exports.changeMulti = async (req, res) => { 
+  console.log(req.body);
+  const type = req.body.type ;// lấy giá trị từ form group select sau khi submit form
+  const ids = req.body.input.split(", "); // chuyển string thành mảng  | lấy giá trị từ form group input
+  switch (type) {
+    case 'active':
+      await dataproduct.updateMany({_id: {$in: ids}} , {status: "active"}); // cập nhật mongoose
+      break;
+    case 'inactive':
+      await dataproduct.updateMany({_id: {$in: ids}} , {status: "inactive"});
+      break;
+    default:
+      break;  
+  }
+  res.redirect("back");
+ }

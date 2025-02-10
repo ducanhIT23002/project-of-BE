@@ -4,7 +4,10 @@ const router = express.Router(); // cho phep ham nay duoc su dung nhu la 1 route
 
 const controller = require("../../controller/admin/product.controller")
 
+
 router.get('/', controller.ProductDashboard);
+router.patch('/change-status/:status/:id', controller.changeStatus);
+router.patch('/change-multi', controller.changeMulti);
 
 
 module.exports = router; 
