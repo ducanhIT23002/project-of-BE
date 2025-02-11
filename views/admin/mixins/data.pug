@@ -2,11 +2,14 @@ mixin Data(DataOfPro)
     each item, index in DataOfPro
       tr
         td 
+        
+          //- đây là ô vuông tick để đánh dấu
           input(
             type = "checkbox"
             name="id"
             value =item.id 
           )
+
         td #{index + 1} 
         td
             img(

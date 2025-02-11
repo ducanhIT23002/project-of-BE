@@ -22,6 +22,7 @@ block main
   .card.mb-3
       .card-header 
        .card-body Danh Sách
+        //- form tĩnh
         +formChange(`${prefixAdmin}/product/change-multi?_method=PATCH`)
 
         table(
@@ -48,6 +49,7 @@ block main
 
   //- GET lấy dữ liệu từ URL
   //- POST phải lấy từ req.body ( phải thêm thư viện mới)
+  //- form động , phải lấy được dữ liệu của client từ FE rồi từ dữ liểu đó truyền vào action để đưa ddeenss BE xử lý và cập nhật data qua databse
   form( 
     action=""
     method="POST"

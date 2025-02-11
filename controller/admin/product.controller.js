@@ -42,8 +42,8 @@ let pagination = paginationHelper(
     }); // render in ra giao diện của pug 
 }
 
-module.exports.changeStatus = async (req, res) => { 
- console.log(req.params);
+module.exports.changeStatus = async (req, res) => { // lấy action từ Form -> JS của FE để cập nhật dữ liệu lên lại action của form(URL) -> file này dể cạp nhật dữ liệu database
+//req.params. id và status là được tại ra từ router, mình viết file router như nào thì req.params.sẽ lấy như thế
  const id = req.params.id; // thì router có tham số động ( dấu : phía trước , nên :status thì dùng được req.params.status)
  const status = req.params.status;
 
@@ -51,12 +51,16 @@ module.exports.changeStatus = async (req, res) => {
 await dataproduct.updateOne({ _id : id }, { status: status });
 
 // sau khi cập nhật quay trở lại trang web như hiện tại
-res.redirect("back");
+res.redirect("back"); // sau khi nhận submit của form và đưa đến action, dùng lệnh này để về lại trang hiện tại
 }
+
+
 module.exports.changeMulti = async (req, res) => { 
-  console.log(req.body);
+ // này là lấy action nhưng không thông qua URL giá trị của form là các thuộc name của form
   const type = req.body.type ;// lấy giá trị từ form group select sau khi submit form
   const ids = req.body.input.split(", "); // chuyển string thành mảng  | lấy giá trị từ form group input
+  //type và input là 2 giá trị của thuộc name của form , sau khi submit thì req.body nhận được 2 giá trị này
+
   switch (type) {
     case 'active':
       await dataproduct.updateMany({_id: {$in: ids}} , {status: "active"}); // cập nhật mongoose
@@ -67,5 +71,5 @@ module.exports.changeMulti = async (req, res) => {
     default:
       break;  
   }
-  res.redirect("back");
+  res.redirect("back"); // trở lại trang hiện tại
  }
