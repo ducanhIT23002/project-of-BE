@@ -31,8 +31,9 @@ let pagination = paginationHelper(
   req.query,
   total
 )
-    const productData = await dataproduct.find(find).limit(pagination.LimitElement).skip(pagination.skip); // lấy all doc ra từ mẫu Product ở trên
-                                                    // trích xuất giới hạn 4 element và bỏ qua #{pagination.skip} phần tử đầu 
+    const productData = await dataproduct.find(find).sort({ position: "desc" }).limit(pagination.LimitElement).skip(pagination.skip); 
+      
+
     res.render("admin/pages/product/index",{
         pageTitle : "Trang product admin",
         DataOfPro : productData,
@@ -49,6 +50,7 @@ module.exports.changeStatus = async (req, res) => { // lấy action từ Form ->
 
  // cập nhật ID và status mới cho database 
 await dataproduct.updateOne({ _id : id }, { status: status });
+req.flash('success', 'Cập nhật trạng thái sản phẩm thành công'); // câu code của BE để đưa lên thông báo 
 
 // sau khi cập nhật quay trở lại trang web như hiện tại
 res.redirect("back"); // sau khi nhận submit của form và đưa đến action, dùng lệnh này để về lại trang hiện tại
@@ -64,12 +66,36 @@ module.exports.changeMulti = async (req, res) => {
   switch (type) {
     case 'active':
       await dataproduct.updateMany({_id: {$in: ids}} , {status: "active"}); // cập nhật mongoose
+      req.flash('success', `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
       break;
     case 'inactive':
       await dataproduct.updateMany({_id: {$in: ids}} , {status: "inactive"});
+      req.flash('success', `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
+      break;
+    case 'delete-all':
+      await dataproduct.updateMany({ _id : {$in: ids} }, { deleted: true, deleteAt: new Date()});
+      req.flash('success', `xóa ${ids.length} sản phẩm thành công`);
+      break;
+    case 'change-position':
+      for ( const item of ids) {// vì position có nhìu giá trị nên phải lặp qua từng phần tử 
+       let [id, position] = item.split("-"); // vì bên FE có lưu cả id và position bằng dấu -
+       position  = parseInt(position ); // chuyển sang số nguyên
+       await dataproduct.updateMany({ _id: id} , { 
+       position : position
+       });
+      }
+      req.flash('success', `thay đổi vị trí ${ids.length} sản phẩm thành công`);
       break;
     default:
       break;  
   }
   res.redirect("back"); // trở lại trang hiện tại
  }
+
+
+//NÚT DELETE
+ module.exports.delete = async (req, res) => { 
+  const id = req.params.id;
+  await dataproduct.updateOne({ _id : id }, { deleted: true, deleteAt: new Date()});
+  res.redirect("back");
+}

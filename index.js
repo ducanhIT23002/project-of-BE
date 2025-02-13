@@ -1,6 +1,12 @@
 const express = require('express'); // require giống import
-var methodOverride = require('method-override') // dùng phương thức PATCH để cập nhật dự liệu 
+
+var methodOverride = require('method-override') //dùng phương thức PATCH/DELETE/.. để cập nhật dự liệu 
+
 var bodyParser = require('body-parser') // để dùng req.body
+
+var flash = require('express-flash')// dùng để cài đặt hiển thị thông báo
+const cookieParser = require('cookie-parser'); //dùng để cài đặt hiển thị thông báo ( alert)
+const session = require('express-session'); //dùng để cài đặt hiển thị thông báo ( alert)
 
 
 require('dotenv').config(); // import file env
@@ -14,8 +20,13 @@ const app = express();
 const port = process.env.PORT;
 
 
-app.use(methodOverride('_method')) // dùng phương thức PATCH để cập nhật dự liệu 
+app.use(methodOverride('_method')) // dùng phương thức PATCH/DELETE/.. để cập nhật dự liệu 
 app.use(bodyParser.urlencoded({ extended: false }))//để dùng req.body
+
+//dùng để cài đặt hiển thị thông báo
+app.use(cookieParser('DUCANH')); // key này tự tạo ra   | phải cài thư viện cookieParser
+app.use(session({ secret: 'DUCANH', resave: false, saveUninitialized: true, cookie: { maxAge: 60000 }}));      //|phải cài thư viện session
+app.use(flash()); // lưu vào cookie
 
 app.set('views', './views');
 app.set('view engine', 'pug');

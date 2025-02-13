@@ -19,7 +19,15 @@ mixin Data(DataOfPro)
               height="auto"
             )
         td #{item.title}
-        td #{item.price}
+        td #{item.price}$
+        td
+          input(
+            type="number"
+            value=item.position
+            style="width: 60px"
+            min="1"
+            name="position"
+          )
         td
          if(item.status == "active")
             button(
@@ -37,4 +45,8 @@ mixin Data(DataOfPro)
             ) Dừng hoạt động
         td
           button(class="btn btn-warning btn-sm") Sửa
-          button(class="btn btn-danger btn-sm ml-1") Xóa
+          button(
+            class="btn btn-danger btn-sm ml-1"
+            button-delete
+            data-id = item.id
+            ) Xóa

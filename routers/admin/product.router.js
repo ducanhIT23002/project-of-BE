@@ -8,6 +8,7 @@ const controller = require("../../controller/admin/product.controller")
 router.get('/', controller.ProductDashboard);
 router.patch('/change-status/:status/:id', controller.changeStatus);
 router.patch('/change-multi', controller.changeMulti);
+router.patch('/delete/:id', controller.delete);
 
 
 module.exports = router; 
