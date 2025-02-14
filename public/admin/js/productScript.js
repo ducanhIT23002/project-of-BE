@@ -154,3 +154,10 @@ if ( showAlert) {
     })
     
 }
+
+
+// Create new product
+const buttonNewProduct = document.querySelector("#form-create-product");
+if (buttonNewProduct) {
+    console.log(buttonNewProduct)
+}

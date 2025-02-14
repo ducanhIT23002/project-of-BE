@@ -6,49 +6,56 @@ include ../../mixins/data.pug
 include ../../mixins/formChange.pug
 include ../../mixins/alert.pug
 
+
 block main
-  
   +alert(5000)
 
-      //- span= messages.success
   h1 trang sản phẩm Admin
+
   .card.mb-3 
     .card-header Bộ lọc và Tìm kiếm
     .card-body
-
-     .row
-      
-      .col-6
-        +Filter-Status(but)
-
-      .col-6
-        +formSearch(keyword) 
+      .row
+        .col-6
+          +Filter-Status(but)
+        .col-6
+          +formSearch(keyword)
+  
   .card.mb-3
-      .card-header 
-       .card-body Danh Sách
-        //- form tĩnh
-        +formChange(`${prefixAdmin}/product/change-multi?_method=PATCH`)
+    .card-header Danh Sách
+    .card-body 
+      .row
+        .col-8
+          //- form tĩnh
+          +formChange(`${prefixAdmin}/product/change-multi?_method=PATCH`)
+        .col-4 
+          a(
+            href =`${prefixAdmin}/product/create`   
+            class ="btn btn-outline-success"
+          ) + thêm mới
+            //- vì này là thẻ a nên mặc định là phương thức get
+      
+      table(
+        class = "table table-hover table-sm"
+        checkbox-multi
+      )
+        thead 
+          tr
+            th  
+              input(type ="checkbox" name = "checkall")
+            th STT
+            th Hình ảnh
+            th Tiêu đề
+            th Giá
+            th vị trí
+            th Trạng thái
+            th Hành động
 
-        table(
-          class = "table table-hover table-sm"
-          checkbox-multi
-          )
-          thead 
-            tr
-              th  
-                input(type ="checkbox" name = "checkall")
-              th STT
-              th Hình ảnh
-              th Tiêu đề
-              th Giá
-              th vị trí
-              th Trạng thái
-              th Hành động
+        tbody 
+          +Data(DataOfPro)
+    
+    +pagination(pagination)
 
-          tbody 
-            +Data(DataOfPro)
-            
-        +pagination(pagination) 
 
   //-  tạo form đựng status đường dẫn sau khi khi ấn vào button
 

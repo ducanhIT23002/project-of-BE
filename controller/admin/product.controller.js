@@ -3,6 +3,9 @@ const statusFilter = require("../../helpers/filterStatus")
 const search = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
 
+const systemConfig = require("../../config/system")
+
+
 module.exports.ProductDashboard = async (req, res) => { 
 
 let find = {
@@ -50,7 +53,9 @@ module.exports.changeStatus = async (req, res) => { // lấy action từ Form ->
 
  // cập nhật ID và status mới cho database 
 await dataproduct.updateOne({ _id : id }, { status: status });
-req.flash('success', 'Cập nhật trạng thái sản phẩm thành công'); // câu code của BE để đưa lên thông báo 
+
+// câu code của BE để đưa lên thông báo 
+req.flash('success', 'Cập nhật trạng thái sản phẩm thành công'); 
 
 // sau khi cập nhật quay trở lại trang web như hiện tại
 res.redirect("back"); // sau khi nhận submit của form và đưa đến action, dùng lệnh này để về lại trang hiện tại
@@ -98,4 +103,32 @@ module.exports.changeMulti = async (req, res) => {
   const id = req.params.id;
   await dataproduct.updateOne({ _id : id }, { deleted: true, deleteAt: new Date()});
   res.redirect("back");
+}
+
+module.exports.create = async (req, res) => { 
+  res.render("admin/pages/product/create",{
+    pageTitle : "tạo sản phẩm mới"
+}); // render in ra giao diện của pug 
+}
+
+
+module.exports.createPost = async (req, res) => { 
+
+req.body.price = parseInt(req.body.price)
+req.body.discountPercentage = parseInt(req.body.discountPercentage)
+req.body.stock =  parseInt(req.body.stock)
+
+if (req.body.position == "") {
+  const countProducts = await dataproduct.countDocuments();
+  req.body.position = countProducts + 1;
+  
+} else {
+  req.body.position =  parseInt(req.body.position)
+}
+
+  const product = new dataproduct(req.body); // cập nhập sản phẩm mới vào database
+  await product.save(); // và lưu nó
+
+console.log(req.body)
+res.redirect(`${systemConfig.prefixAdmin}/product`)
 }

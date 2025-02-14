@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); // nhung mongoose
-
+const slug = require('mongoose-slug-updater');   // cài đặt slug ( dãy id unique cho từng sản phẩm)
+mongoose.plugin(slug) // nhứng vào database
 
 const productSchema = new mongoose.Schema(
     {
@@ -11,10 +12,20 @@ const productSchema = new mongoose.Schema(
         thumbnail: String,
         status:String ,
         position:Number,
-        deleted: Boolean
-
-    }
-);
+        slug: {
+             type: String,
+             slug: "title",
+             unique : true // tạo dãy id duy nhất 
+             },
+        deleted: {
+          type : Boolean,
+          default : false
+        } ,
+        deleteAt: Date 
+        
+    } , {
+    timestamps: true
+});
 
 const product = mongoose.model('product', productSchema,"products");
 
