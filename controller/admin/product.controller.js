@@ -114,21 +114,34 @@ module.exports.create = async (req, res) => {
 
 module.exports.createPost = async (req, res) => { 
 
-req.body.price = parseInt(req.body.price)
-req.body.discountPercentage = parseInt(req.body.discountPercentage)
-req.body.stock =  parseInt(req.body.stock)
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock =  parseInt(req.body.stock)
 
-if (req.body.position == "") {
-  const countProducts = await dataproduct.countDocuments();
-  req.body.position = countProducts + 1;
-  
-} else {
-  req.body.position =  parseInt(req.body.position)
-}
+    if (req.body.position == "") {
+      const countProducts = await dataproduct.countDocuments();
+      req.body.position = countProducts + 1;
+      
+    } else {
+      req.body.position =  parseInt(req.body.position)
+    }
 
-  const product = new dataproduct(req.body); // cập nhập sản phẩm mới vào database
-  await product.save(); // và lưu nó
 
-console.log(req.body)
-res.redirect(`${systemConfig.prefixAdmin}/product`)
+    console.log(req.file) //req.file chứa thông tin về tệp đơn lẻ mà người dùng đã tải lên (nếu bạn sử dụng upload.single('thumbnail')), hoặc nếu bạn sử dụng upload.array('thumbnail'), req.files sẽ chứa một mảng các tệp.
+    // 'thumbnail' là tên của trường input trong form PUG. div(class="form-group")
+    // label(for="thumbnail") Ảnh
+    // input(
+    //     type="file"
+    //     class="form-control-file"
+    //     id="thumbnail"
+    //                                     upload.single('thumbnail')    nó đây -->                name="thumbnail"
+    //     accept ="image/*"
+    // )
+    
+    req.body.thumbnail = `/uploads/${req.file.filename}` // cập nhật thumbnail mới cho sản phẩm mới, thế này mới xuất hiện được ảnh trên giao diện
+    const product = new dataproduct(req.body); // cập nhập sản phẩm mới vào database
+    await product.save(); // và lưu nó
+
+    res.redirect(`${systemConfig.prefixAdmin}/product`) 
+
 }

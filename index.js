@@ -8,6 +8,7 @@ var flash = require('express-flash')// dùng để cài đặt hiển thị thô
 const cookieParser = require('cookie-parser'); //dùng để cài đặt hiển thị thông báo ( alert)
 const session = require('express-session'); //dùng để cài đặt hiển thị thông báo ( alert)
 
+// const multer  = require('multer'); // 
 
 require('dotenv').config(); // import file env
 const router = require("./routers/client/index.router") // truy cap vao trang quan ly router cua client ( giu control va click de truy cap den file router do)
