@@ -35,8 +35,6 @@ let pagination = paginationHelper(
   total
 )
     const productData = await dataproduct.find(find).sort({ position: "desc" }).limit(pagination.LimitElement).skip(pagination.skip); 
-      
-
     res.render("admin/pages/product/index",{
         pageTitle : "Trang product admin",
         DataOfPro : productData,
@@ -99,25 +97,23 @@ module.exports.changeMulti = async (req, res) => {
 
 
 //NÚT DELETE
- module.exports.delete = async (req, res) => { 
+module.exports.delete = async (req, res) => { 
   const id = req.params.id;
   await dataproduct.updateOne({ _id : id }, { deleted: true, deleteAt: new Date()});
   res.redirect("back");
 }
 
+//TRANG TAO SAN PHAM MOI
 module.exports.create = async (req, res) => { 
   res.render("admin/pages/product/create",{
     pageTitle : "tạo sản phẩm mới"
 }); // render in ra giao diện của pug 
 }
 
-
 module.exports.createPost = async (req, res) => { 
-
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock =  parseInt(req.body.stock)
-
     if (req.body.position == "") {
       const countProducts = await dataproduct.countDocuments();
       req.body.position = countProducts + 1;
@@ -125,7 +121,6 @@ module.exports.createPost = async (req, res) => {
     } else {
       req.body.position =  parseInt(req.body.position)
     }
-
 
     console.log(req.file) //req.file chứa thông tin về tệp đơn lẻ mà người dùng đã tải lên (nếu bạn sử dụng upload.single('thumbnail')), hoặc nếu bạn sử dụng upload.array('thumbnail'), req.files sẽ chứa một mảng các tệp.
     // 'thumbnail' là tên của trường input trong form PUG. div(class="form-group")
@@ -141,7 +136,43 @@ module.exports.createPost = async (req, res) => {
     req.body.thumbnail = `/uploads/${req.file.filename}` // cập nhật thumbnail mới cho sản phẩm mới, thế này mới xuất hiện được ảnh trên giao diện
     const product = new dataproduct(req.body); // cập nhập sản phẩm mới vào database
     await product.save(); // và lưu nó
-
     res.redirect(`${systemConfig.prefixAdmin}/product`) 
+}
 
+
+
+// Sửa
+module.exports.edit = async (req, res) => { 
+  const id = req.params.id; 
+  let find = {
+    deleted : false,
+    _id : id
+   };
+   const productData = await dataproduct.findOne(find) // vì là mục sửa thông tin 1 sản phẩm nên dùng findone
+  res.render("admin/pages/product/edit",{
+    pageTitle : "sửa sản phẩm",
+    product : productData,
+});
+}
+
+module.exports.editPost = async (req, res) => { 
+  const id = req.params.id;
+  req.body.price = parseInt(req.body.price)
+  req.body.discountPercentage = parseInt(req.body.discountPercentage)
+  req.body.stock =  parseInt(req.body.stock)
+  req.body.position =  parseInt(req.body.position)
+   // hình ảnh 
+   if ( req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+   }
+   // bắt error nếu cập nhật sản phẩm bị lỗi
+   try {
+    await dataproduct.updateOne ({
+      _id : id
+    },req.body) // tra theo id và cập nhật dữ liểu theo req.body
+    req.flash("success","chỉnh sửa dữ liệu thành công");
+   } catch (error) {
+    req.flash("error","cập nhật thất bại");
+   }
+  res.redirect(`${systemConfig.prefixAdmin}/product`) 
 }

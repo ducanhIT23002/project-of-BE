@@ -23,8 +23,6 @@ if (buttonChangeStatus.length > 0 ) {
     });
 }
 
-
-
 // checkbox : XỬ LỸ CÁC Ô VUÔNG và gửi đến formChange để đưa sang backend
 const checkboxMulti=document.querySelector("[checkbox-multi]"); // lấy thẻ của form chứa các ô vuông all và con
 if(checkboxMulti) { 
@@ -122,17 +120,14 @@ if ( formchangeMulti) {
 }
 
 
-
-
-
 // BUTTON DELETE
 const ButtonDelete = document.querySelectorAll("[button-delete]");
 const formDelete = document.querySelector("#delete-element");
-let DeletePath = formDelete.getAttribute("data-path"); // lấy đường dẫn tới router change status
+let DeletePath = formDelete.getAttribute("data-path"); 
 ButtonDelete.forEach(item => { // duyệt qua các thẻ xóa
     item.addEventListener("click", () => { // bắt sự kiện click nút xóa
         let id = item.getAttribute("data-id");  // lấy ra id
-        formDelete.action = DeletePath + `/${id}?_method=PATCH`
+        formDelete.action = `${DeletePath}/${id}?_method=PATCH`
         formDelete.submit();
     })
 })
@@ -143,7 +138,6 @@ ButtonDelete.forEach(item => { // duyệt qua các thẻ xóa
 const showAlert = document.querySelector("[show-alert]");
 if ( showAlert) {
     const time = parseInt(showAlert.getAttribute("data-time"))
-    console.log(time)
     setTimeout(() => {
         showAlert.classList.add("alert-hidden"); // thêm giá trị cho thuộc tính class
     }, time);
@@ -156,5 +150,17 @@ if ( showAlert) {
 }
 
 
-// Create new product
+    // const uploadImageInput = document.querySelector("[upload-image-input]");
+    // const uploadImagePreview = document.querySelector("[upload-image-preview]");
+
+    // if (uploadImageInput && uploadImagePreview) {
+    //     uploadImageInput.addEventListener("change", (e) => {
+    //         console.log(e);
+    //         const file = e.target.files[0];
+    //         if (file) {
+    //             uploadImagePreview.src = URL.createObjectURL(file);
+    //         }
+    //     });
+    // }
+
 
