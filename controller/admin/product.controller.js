@@ -176,3 +176,19 @@ module.exports.editPost = async (req, res) => {
    }
   res.redirect(`${systemConfig.prefixAdmin}/product`) 
 }
+
+
+// detail
+module.exports.detail = async (req, res) => { 
+  const id = req.params.id; 
+  let find = {
+    deleted : false,
+    _id : id
+   };
+   const productData = await dataproduct.findOne(find) // vì là mục sửa thông tin 1 sản phẩm nên dùng findone
+   console.log(productData)
+  res.render("admin/pages/product/detail",{
+    pageTitle : "chi tiết sản phẩm",
+    product : productData,
+});
+}

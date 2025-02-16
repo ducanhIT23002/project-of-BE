@@ -45,6 +45,11 @@ mixin Data(DataOfPro)
             ) Dừng hoạt động
         td
           a(
+            href =`${prefixAdmin}/product/detail/${item.id}` 
+            class="btn btn-secondary btn-sm"
+            data-id = item.id
+          ) chi tiết
+          a(
             href =`${prefixAdmin}/product/edit/${item.id}` 
             class="btn btn-warning btn-sm"
             button-edit
