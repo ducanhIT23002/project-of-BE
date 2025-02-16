@@ -29,9 +29,11 @@ app.use(cookieParser('DUCANH')); // key này tự tạo ra   | phải cài thư 
 app.use(session({ secret: 'DUCANH', resave: false, saveUninitialized: true, cookie: { maxAge: 60000 }}));      //|phải cài thư viện session
 app.use(flash()); // lưu vào cookie
 
-app.set('views', './views');
-app.set('view engine', 'pug');
-app.use(express.static('public')); // dùng để chạy được file tĩnh (tên file : public)
+
+// DÙNG DIRNAME ĐỂ UNLOAD LÊN ĐƯỢC VERCEL , SỬA TRONG CODE CỦA VIEW VÀ PUBLIC 
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug'); 
+app.use(express.static(`${__dirname}/public`)); // dùng để chạy được file tĩnh (tên file : public)
 
 //App local varibles
 const systemConfig = require("./config/system") // dùng cho file pug
