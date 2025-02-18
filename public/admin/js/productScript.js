@@ -149,7 +149,37 @@ if ( showAlert) {
     
 }
 
-
-
+// Xắp xếp 
+const sort = document.querySelector("[sort]");
+if ( sort) {
+    const sortSelect = document.querySelector("[sort-select]");
+    let url = new URL(window.location.href)
+    sortSelect.addEventListener("change", (e) => {
+        const[key,type] = e.target.value.split("-");
+        if (key && type) {
+            url.searchParams.set("key", key)
+            url.searchParams.set("type", type)
+        } else  {
+            url.searchParams.delete("key")
+            url.searchParams.delete("type")
+        }
+        window.location.href = url.href;
+    })
+  const key = url.searchParams.get("key")
+  const type = url.searchParams.get("type")
+// selected
+  if (key && type ) {
+    const string = `${key}-${type}`
+    const optionSelected = sortSelect.querySelector(`option[value='${string}']`)
+    optionSelected.selected = true;
+  }
+//   xóa 
+  const deleteSelect = document.querySelector("[sort-clear]");
+  deleteSelect.addEventListener("click", () => {
+    url.searchParams.delete("key")
+    url.searchParams.delete("type")
+    window.location.href = url.href;
+  })
+}
 
 

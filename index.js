@@ -1,5 +1,5 @@
 const express = require('express'); // require giống import
-
+const path = require('path');// tinyMCE
 var methodOverride = require('method-override') //dùng phương thức PATCH/DELETE/.. để cập nhật dự liệu 
 
 var bodyParser = require('body-parser') // để dùng req.body
@@ -34,6 +34,10 @@ app.use(flash()); // lưu vào cookie
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug'); 
 app.use(express.static(`${__dirname}/public`)); // dùng để chạy được file tĩnh (tên file : public)
+
+// tinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 
 //App local varibles
 const systemConfig = require("./config/system") // dùng cho file pug

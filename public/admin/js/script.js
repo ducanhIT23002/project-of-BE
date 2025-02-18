@@ -56,11 +56,6 @@ if (pagi.length > 0 ) {
        })
    });
    }
-
-
-
-console.log("ok")
-
 // vì ProductScript bị lỗi ở link create
     const uploadImageInput = document.querySelector("[upload-image-input]");
     const uploadImagePreview = document.querySelector("[upload-image-preview]");
@@ -74,4 +69,5 @@ console.log("ok")
             }
         });
     }
+
 

@@ -9,6 +9,9 @@ cloudinary.config({
 }) ;
 
 module.exports.upload = (req, res, next) => {  // 3
+  if (!req.file) {
+    return next(); // Nếu không có file, bỏ qua upload
+}
     let streamUpload = (req) => {
         return new Promise((resolve, reject) => {
             let stream = cloudinary.uploader.upload_stream(

@@ -18,8 +18,6 @@ const controller = require("../../controller/admin/product.controller")
 //validate
 const validate = require("../../validates/admin/product.validate")
 
-
-
 router.get('/', controller.ProductDashboard);
 router.patch('/change-status/:status/:id', controller.changeStatus);
 router.patch('/change-multi', controller.changeMulti);
@@ -32,15 +30,16 @@ router.get('/create', controller.create);
 
 router.patch('/create',
      upload.single('thumbnail'),
-     uploadCloud.upload,
+     uploadCloud.upload, //dùng để tải ảnh lên Cloudinary và lưu đường dẫn ảnh vào req.body trước khi chuyển sang middleware tiếp theo.
      validate.createPost, // kiểu tra xem tiêu đề đã được nhập hay chưa       !req.body.title
      controller.createPost
     ); // thay đổi thành trường lưu ảnh trên database upload.single('thumbnail') VÀ ĐỂ CÓ THỂ SỬ DỤNG req.file bên backend
 
 router.get('/edit/:id', controller.edit);
 router.patch('/edit/:id', upload.single('thumbnail'),
-        validate.createPost, // kiểu tra xem tiêu đề đã được nhập hay chưa     !req.body.title
-        controller.editPost
+    uploadCloud.upload,
+    validate.createPost, // kiểu tra xem tiêu đề đã được nhập hay chưa     !req.body.title
+    controller.editPost
     );
 
 router.get('/detail/:id', controller.detail);    

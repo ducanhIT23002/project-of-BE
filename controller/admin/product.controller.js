@@ -34,7 +34,19 @@ let pagination = paginationHelper(
   req.query,
   total
 )
-    const productData = await dataproduct.find(find).sort({ position: "desc" }).limit(pagination.LimitElement).skip(pagination.skip); 
+
+
+
+let key ;
+let type;
+if (req.query.key && req.query.type) {
+  key = req.query.key
+  type = req.query.type
+} else {
+  key = "position"
+  type = "desc"
+}
+    const productData = await dataproduct.find(find).sort({[key]: type}).limit(pagination.LimitElement).skip(pagination.skip); 
     res.render("admin/pages/product/index",{
         pageTitle : "Trang product admin",
         DataOfPro : productData,
@@ -162,9 +174,9 @@ module.exports.editPost = async (req, res) => {
   req.body.stock =  parseInt(req.body.stock)
   req.body.position =  parseInt(req.body.position)
    // hình ảnh 
-   if ( req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-   }
+  //  if ( req.file) {
+  //   req.body.thumbnail = `/uploads/${req.file.filename}`
+  //  }
    // bắt error nếu cập nhật sản phẩm bị lỗi
    try {
     await dataproduct.updateOne ({
@@ -192,3 +204,5 @@ module.exports.detail = async (req, res) => {
     product : productData,
 });
 }
+
+
