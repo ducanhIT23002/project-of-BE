@@ -173,11 +173,6 @@ module.exports.editPost = async (req, res) => {
   req.body.discountPercentage = parseInt(req.body.discountPercentage)
   req.body.stock =  parseInt(req.body.stock)
   req.body.position =  parseInt(req.body.position)
-   // hình ảnh 
-  //  if ( req.file) {
-  //   req.body.thumbnail = `/uploads/${req.file.filename}`
-  //  }
-   // bắt error nếu cập nhật sản phẩm bị lỗi
    try {
     await dataproduct.updateOne ({
       _id : id

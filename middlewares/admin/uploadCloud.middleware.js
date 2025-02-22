@@ -28,11 +28,11 @@ module.exports.upload = (req, res, next) => {  // 3
         });
     };
     
-    // 2
+
     async function upload(req) {
         let result = await streamUpload(req);
         req.body[req.file.fieldname] = result.secure_url;
         next();
     }
-    upload(req); // 1
+    upload(req); 
 }
