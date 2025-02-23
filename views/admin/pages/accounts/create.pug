@@ -1,0 +1,98 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-error(5000)
+  h1 tạo mới sản phẩm
+  form(
+    action=`${prefixAdmin}/accounts/create?_method=PATCH`
+    id="form-create-product"
+    method="POST"
+    enctype="multipart/form-data"
+  )
+    div(class="form-group")
+      label(for="fullName") Họ và Tên
+      input(
+        type="text"
+        class="form-control"
+        id="fullName"
+        name="fullName"
+      )
+    div(class="form-group")
+      label(for="email") email
+      input(
+        type="text"
+        class="form-control"
+        id="email"
+        name="email"
+      )
+    
+    div(class="form-group")
+      label(for="password") password
+      input(
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+      )
+
+    div(class="form-group")
+      label(for="phone") phone
+      input(
+        type="text"
+        class="form-control"
+        id="phone"
+        name="phone"
+      )  
+    div(
+      class="form-group" 
+      upload-image
+    )
+      label(for="thumbnail") avatar
+      input(
+        type="file"
+        class="form-control-file"
+        id="thumbnail"
+        name="thumbnail"
+        accept="image/*" 
+        upload-image-input
+      )
+      img(
+        class = "image-preview"
+        src=""
+        upload-image-preview
+      )  
+
+    div(class="form-group")
+      label(for="role_id") Phân quyền
+      select(name="role_id" id="role_id" class="form-control")
+          option(disabled) -- Chọn --
+          each item in dataRole
+             option(value=item._id) #{item.title}
+          //- option(value="content_manager") Quản trị nội dung  
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusActive"
+        name="status"
+        value="active"
+        checked
+      )
+      label(for="statusActive" class="form-check-label") Hoạt động
+
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusInActive"
+        name="status"
+        value="inactive"
+      )
+      label(for="statusInActive" class="form-check-label") Dừng hoạt động
+
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      ) Tạo mới
