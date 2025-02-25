@@ -9,7 +9,7 @@ const controller = require("../../controller/admin/accounts.controller")
 router.get('/', controller.index);
 router.get('/create', controller.create);
 router.patch('/create',
-    upload.single('thumbnail'),
+    upload.single('avatar'),
     uploadCloud.upload,
     // validate.createPost,
     controller.createPost 
@@ -17,7 +17,7 @@ router.patch('/create',
 
 router.get('/edit/:id', controller.edit);
 router.patch('/edit/:id',
-    upload.single('thumbnail'),
+    upload.single('avatar'),
     uploadCloud.upload,
     // validate.createPost,
     controller.EditPost 

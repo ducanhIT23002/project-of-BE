@@ -2,6 +2,8 @@ const express = require('express'); // require giống import
 const path = require('path');// tinyMCE
 var methodOverride = require('method-override') //dùng phương thức PATCH/DELETE/.. để cập nhật dự liệu 
 
+
+
 var bodyParser = require('body-parser') // để dùng req.body
 
 var flash = require('express-flash')// dùng để cài đặt hiển thị thông báo
@@ -20,6 +22,9 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
+// hiển thị thời gian trong PUG
+const moment = require('moment');
+app.locals.moment = moment;
 
 app.use(methodOverride('_method')) // dùng phương thức PATCH/DELETE/.. để cập nhật dự liệu 
 app.use(bodyParser.urlencoded({ extended: false }))//để dùng req.body

@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
         item.newPrice = (item.price * (100 - item.discountPercentage)/100).toFixed(0);
     });
     // có thể dùng map và return lại hàm mới
-    console.log(Product)
+
 
     res.render("client/pages/product/index", {
         pageTitle : "Product",

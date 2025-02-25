@@ -1,4 +1,5 @@
 const dataproduct = require("../../models/product.models") // lấy data từ model 
+const dataAccount = require("../../models/accounts.model")
 const statusFilter = require("../../helpers/filterStatus")
 const search = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
@@ -46,7 +47,16 @@ if (req.query.key && req.query.type) {
   key = "position"
   type = "desc"
 }
+
+
     const productData = await dataproduct.find(find).sort({[key]: type}).limit(pagination.LimitElement).skip(pagination.skip); 
+    // thêm biến fullname của tài khoản thằng đăng nhập vào 
+    for (const item of productData) {
+       const user = await dataAccount.findOne({_id : item.createBy.account_id}) // id được cập nhật ở createPost
+       if (user) {
+        item.fullname = user.fullName
+       }
+    }
     res.render("admin/pages/product/index",{
         pageTitle : "Trang product admin",
         DataOfPro : productData,
@@ -133,22 +143,13 @@ module.exports.createPost = async (req, res) => {
     } else {
       req.body.position =  parseInt(req.body.position)
     }
-
-    // console.log(req.file) //req.file chứa thông tin về tệp đơn lẻ mà người dùng đã tải lên (nếu bạn sử dụng upload.single('thumbnail')), hoặc nếu bạn sử dụng upload.array('thumbnail'), req.files sẽ chứa một mảng các tệp.
-    // 'thumbnail' là tên của trường input trong form PUG. div(class="form-group")
-    // label(for="thumbnail") Ảnh
-    // input(
-    //     type="file"
-    //     class="form-control-file"
-    //     id="thumbnail"
-    //                                     upload.single('thumbnail')    nó đây -->                name="thumbnail"
-    //     accept ="image/*"
-    // )
-    
-    // req.body.thumbnail = `/uploads/${req.file.filename}` // cập nhật thumbnail mới cho sản phẩm mới, thế này mới xuất hiện được ảnh trên giao diện
+     
+    req.body.createBy = {
+      account_id : res.locals.user._id
+    }
     const product = new dataproduct(req.body); // cập nhập sản phẩm mới vào database
     await product.save(); // và lưu nó
-    res.redirect(`${systemConfig.prefixAdmin}/product`) 
+    res.redirect(`${systemConfig.prefixAdmin}/product`)  
 }
 
 

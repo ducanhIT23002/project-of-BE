@@ -12,6 +12,13 @@ const productSchema = new mongoose.Schema(
         thumbnail: String,
         status:String ,
         position:Number,
+        createBy : {
+         account_id : String,
+         createAt : {
+          type : Date,
+          default : Date.now
+         }
+        },
         slug: {
              type: String,
              slug: "title",

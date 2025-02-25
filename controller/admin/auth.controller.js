@@ -1,9 +1,14 @@
 var md5 = require('md5');
+const systemConfig = require("../../config/system")
 const dataAccount = require("../../models/accounts.model")
 module.exports.login = (req, res) => { 
-    res.render("admin/pages/auth/login",{
-        pageTitle : "Trang đăng nhập"
-    }); // render in ra giao diện của pug 
+    if (req.cookies.token) { // đang ở trang dashboard mà cố tình vado trang login thì trở lại dashboard 
+        res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
+    } else {
+        res.render("admin/pages/auth/login",{
+            pageTitle : "Trang đăng nhập"
+        }); // render in ra giao diện của pug 
+    }
 }
 
 module.exports.loginPost = async (req, res) => { 
@@ -13,7 +18,7 @@ const user = await dataAccount.findOne({ // tìm trong data xem email đã tồn
     email: email,
     deleted: false
 });
-console.log(user)
+
 if (!user) {
     req.flash("error", "Email không tồn tại!");
     res.redirect("back");

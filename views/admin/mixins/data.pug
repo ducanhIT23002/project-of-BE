@@ -44,6 +44,9 @@ mixin Data(DataOfPro)
               data-status = "inactive"
             ) Dừng hoạt động
         td
+            p #{item.fullname}
+            p #{moment(item.createBy.createAt).format("DD/MM/YYYY h:mm:ss")}
+        td
           a(
             href =`${prefixAdmin}/product/detail/${item.id}` 
             class="btn btn-secondary btn-sm"
